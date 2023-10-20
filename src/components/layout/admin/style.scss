@@ -1,0 +1,35 @@
+.dashboard-sider {
+  height: 100vh !important;
+}
+
+.dashboard-logo {
+  color: #fff;
+  padding: 24px;
+  font-size: 20px;
+  width: 200px;
+}
+
+.dashboard-main {
+  margin: 0 !important;
+  overflow: auto !important; 
+  height: calc(100vh - 64px) !important;
+}
+
+.dashboard-header {
+  background-color: #001529 !important;
+  border-left: 1px solid #fff !important;
+  
+}
+
+.dashboard-header svg {
+  fill: #fff;
+}
+
+
+.logoutdashboard{
+  margin-top: 100px !important;
+  background-color: red;
+  padding: 10px;
+  border-radius: 5px;
+  color: #fff;
+}
