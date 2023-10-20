@@ -10,6 +10,7 @@ import { getUsers } from "../../../redux/actions/user";
 import { getPosts } from "../../../redux/actions/post";
 
 import "./style.scss";
+import { Progress } from "antd";
 
 const DashboardPage = () => {
   const { username } = useContext(AuthContext);
@@ -38,8 +39,37 @@ const DashboardPage = () => {
           <h3 className="dashboard-username">Hello, Abdulaziz !</h3>
         </div>
       </div>
+        <div className="userTotal">
+          <h2>Total user: <span>{userTotal}</span></h2>
+        </div>
       <div className="wrapper">
-       
+        <div>
+          {" "}
+          <h2>category</h2>
+          <Progress
+            type="circle"
+            strokeColor={{
+              "0%": "#108ee9",
+              "100%": "#87d068",
+            }}
+            percent={total}
+            format={(percent) => percent + ""}
+          />
+        </div>
+
+        <div>
+          <h2>post</h2>
+
+          <Progress
+            type="circle"
+            strokeColor={{
+              "0%": "#108ee9",
+              "100%": "#87d068",
+            }}
+            percent={postTotal}
+            format={(percent) => percent + ""}
+          />
+        </div>
       </div>
     </section>
   );

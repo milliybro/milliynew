@@ -4,14 +4,8 @@
 
 .main-card {
   padding: 30px 40px !important;
-  background-color: #001529;
-  border-radius: 15.633px;
-  background: linear-gradient(99deg, #001529 43.12%, #00d4ff 155.43%);
-  box-shadow: 5.21094px 5.21094px 31.26563px 5.21094px rgba(0, 0, 0, 0.08);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 40px;
+  background-color: green;
+  border-radius: 15px;
 }
 
 .current-date {
@@ -120,5 +114,20 @@
 
   .courses-row {
     grid-template-columns: repeat(1, 1fr);
+  }
+}
+.wrapper{
+  margin-top: 50px;
+  display: flex;
+  gap: 10px;
+  div{
+    display: flex;
+  }
+}
+
+.userTotal{
+  margin-top: 50px;
+  span{
+    color: red;
   }
 }
