@@ -45,7 +45,7 @@ const DashboardPage = () => {
       <div className="wrapper">
         <div>
           {" "}
-          <h2>category</h2>
+          <h2>Total category:</h2>
           <Progress
             type="circle"
             strokeColor={{
@@ -58,7 +58,7 @@ const DashboardPage = () => {
         </div>
 
         <div>
-          <h2>post</h2>
+          <h2>Total post:</h2>
 
           <Progress
             type="circle"
