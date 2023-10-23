@@ -2,14 +2,14 @@ import { Fragment, useCallback, useContext, useEffect, useState } from "react";
 
 import { AuthContext } from "../../../context/AuthContext";
 import Loader from "../../../utils/Loader";
-import { LoadingOutlined, PlusOutlined, UploadOutlined } from "@ant-design/icons";
+import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 
 import "./style.scss";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import request from "../../../server";
 import { ENDPOINT } from "../../../constants";
-import { Button, Form, Input, Modal, Select, Upload } from "antd";
+import { Form, Input, Modal, Select, Upload } from "antd";
 
 import edit from "../../../assets/images/edit.png";
 import deleted from "../../../assets/images/delete.png";
@@ -26,6 +26,7 @@ const MyPostsPage = () => {
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
+  setImageUrl(imageUrl);
 
   useEffect(() => {
     setLoading(true);

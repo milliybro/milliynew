@@ -1,11 +1,10 @@
 import { Fragment, memo, useContext, useEffect, useState } from "react";
-import { Link, NavLink, useLocation, useParams } from "react-router-dom";
+import { NavLink, useLocation, useParams } from "react-router-dom";
 
 import request from "../../../server";
 import { ENDPOINT } from "../../../constants";
 import { longDate } from "../../../constants/dateConvert";
 
-import deafaultImg from "../../../assets/images/why-we-started.png";
 
 import "./style.scss";
 import { LazyLoadImage } from "react-lazy-load-image-component";
@@ -33,11 +32,11 @@ const BlogPostPage = () => {
     getPost();
   }, [blogId, setLoading]);
 
-  const setDefaultImage = (e) => {
-    if (e.target.src === null) {
-      e.target.src = deafaultImg;
-    }
-  };
+  // const setDefaultImage = (e) => {
+  //   if (e.target.src === null) {
+  //     e.target.src = deafaultImg;
+  //   }
+  // };
 
   const { pathname } = useLocation();
 

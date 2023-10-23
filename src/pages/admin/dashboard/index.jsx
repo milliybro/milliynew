@@ -28,7 +28,8 @@ const DashboardPage = () => {
     let currentDay = date.toDateString();
     setDate(currentDay);
   }, []);
-
+  console.log(date);
+  
   return (
     <section className="dashboard">
       <div className="main-card">
