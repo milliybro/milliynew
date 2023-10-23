@@ -1,5 +1,5 @@
 import { Fragment, memo, useContext, useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { Link, NavLink, useLocation, useParams } from "react-router-dom";
 
 import request from "../../../server";
 import { ENDPOINT } from "../../../constants";
@@ -92,15 +92,9 @@ const BlogPostPage = () => {
               </div>
               <div className="blog-post__main">
                 <p className="blog-post__text">{post?.description}</p>
-                <p className="blog-post__text">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Non blandit massa enim nec. Scelerisque viverra mauris in
-                  aliquam sem. At risus viverra adipiscing at in tellus. Sociis
-                  natoque penatibus et magnis dis parturient montes. Ridiculus
-                  mus mauris vitae ultricies leo. Neque egestas congue quisque
-                  egestas diam. Risus in hendrerit gravida rutrum quisque non.
-                </p>
+                <NavLink to={`/comment/${post?._id}`}>
+                  Comment
+                </NavLink>
               </div>
             </div>
           </div>

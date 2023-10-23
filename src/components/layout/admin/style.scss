@@ -17,12 +17,12 @@
 
 .dashboard-header {
   background-color: #001529 !important;
-  border-left: 1px solid #fff !important;
+  border-left: 1px solid #999 !important;
   
 }
 
 .dashboard-header svg {
-  fill: #fff;
+  fill: #fff  ;
 }
 
 
@@ -32,4 +32,7 @@
   padding: 10px;
   border-radius: 5px;
   color: #fff;
+}.dashboard-main, .dashboard, .ant-table, .ant-table-cell{
+  background-color: #777 !important;
+  color: #fff !important;
 }

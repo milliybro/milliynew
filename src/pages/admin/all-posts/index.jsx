@@ -1,21 +1,85 @@
-import { Button, Flex, Image, Pagination, Space, Table } from "antd";
-import Search from "antd/es/input/Search";
-import { useEffect } from "react";
-import { Fragment } from "react";
+import { useEffect, Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { changePage, searchCategories } from "../../../redux/actions/post";
+import {
+  Button,
+  Flex,
+  Image,
+  Pagination,
+  Space,
+  Table,
+  Modal,
+  Form,
+  Input,
+  Upload,
+  Select,
+} from "antd";
+import Search from "antd/es/input/Search";
+
+import {
+  changePage,
+  searchPosts,
+  getPosts,
+  showModal,
+  controlModal,
+  sendPosts,
+  deletePost,
+  editPost,
+  uploadImage,
+} from "../../../redux/actions/post";
 import { ENDPOINT, POSTS_LIMIT } from "../../../constants";
-import { getPosts } from "../../../redux/actions/post";
+import { Link } from "react-router-dom";
+import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
+import { getCategoryImage } from "../../../utils/getImage";
+import request from "../../../server";
+import { useState } from "react";
 
 const AllPostsPage = () => {
   const dispatch = useDispatch();
-  const { categories, total, loading, activePage } = useSelector(
-    (state) => state.post
-  );
+  const [form] = Form.useForm();
+  const [options, setOptions] = useState([]);
+
+  const {
+    total,
+    loading,
+    activePage,
+    search,
+    isModalOpen,
+    isModalLoading,
+    selected,
+    imageLoading,
+    imageData,
+    posts,
+  } = useSelector((state) => state.post);
+
+  useEffect(() => {
+    const getCategories = async () => {
+      let {data: {data}} = await request.get("category");
+      let options = data?.map((category) => {
+        return {
+          value: category?._id,
+          label: category?.name,
+        }
+      })
+      setOptions(options);
+    }
+    getCategories()
+  }, [])
+
+
 
   useEffect(() => {
     total === 0 && dispatch(getPosts());
   }, [dispatch, total]);
+
+  const handleOk = async () => {
+    const values = await form.validateFields();
+    values.photo = imageData._id;
+    dispatch(sendPosts({ values, selected, activePage, search, form }));
+  };
+
+  const closeModal = () => {
+    dispatch(controlModal(false));
+  };
 
   const columns = [
     {
@@ -27,13 +91,14 @@ const AllPostsPage = () => {
           <Image
             height={50}
             width={50}
+            alt=""
             src={`${ENDPOINT}upload/${data?._id}.${data?.name.split(".")[1]}`}
           />
         );
       },
     },
     {
-      title: "Title",
+      title: "Post title",
       dataIndex: "title",
       key: "title",
     },
@@ -59,16 +124,29 @@ const AllPostsPage = () => {
       title: "Action",
       dataIndex: "_id",
       key: "_id",
-      render: () => (
+      render: (data) => (
         <Space size="middle">
-          <Button type="primary">Edit</Button>
-          <Button danger type="primary">
-            Delete
+          <Button onClick={() => dispatch(editPost(form, data))} type="primary">
+          <img className="editDelete" src="/public/edit.png" /> Edit
           </Button>
+          <Button
+            onClick={() =>
+              Modal.confirm({
+                title: "Do you want to delete this category ?",
+                onOk: () => dispatch(deletePost(data, search)),
+              })
+            }
+            danger
+            type="primary"
+          >
+           <img className="editDelete" src="/public/delete.png" /> Delete
+          </Button>
+          <Link to={`/blog-post/${data}`}>See more</Link>
         </Space>
       ),
     },
   ];
+
   return (
     <Fragment>
       <Table
@@ -78,18 +156,25 @@ const AllPostsPage = () => {
         }}
         title={() => (
           <Fragment>
-            <Flex align="center" justify="space-between">
-              <h1>All Posts({total})</h1>
-
+            <Flex align="center" justify="space-between" gap={36}>
+              <h1>Posts({total})</h1>
+              <Search
+                placeholder="Searching .."
+                onChange={(e) => dispatch(searchPosts(e.target.value))}
+                size="large"
+              />
+              <Button
+                onClick={() => dispatch(showModal(form))}
+                className="modal-btn"
+                type="dashed"
+                size="large"
+              >
+                Add post
+              </Button>
             </Flex>
-            <Search
-              placeholder="Searching .."
-              onChange={(e) => dispatch(searchCategories(e.target.value))}
-              size="large"
-            />
           </Fragment>
         )}
-        dataSource={categories}
+        dataSource={posts}
         columns={columns}
         pagination={false}
       />
@@ -99,9 +184,113 @@ const AllPostsPage = () => {
           total={total}
           pageSize={POSTS_LIMIT}
           current={activePage}
-          onChange={(page) => dispatch(changePage(page))}
+          onChange={(page) => dispatch(changePage(page, search))}
         />
       ) : null}
+      <Modal
+        title="All post"
+        open={isModalOpen}
+        maskClosable={false}
+        confirmLoading={isModalLoading}
+        onOk={handleOk}
+        okText={selected === null ? "Add post" : "Save post"}
+        onCancel={closeModal}
+      >
+        <Form
+          form={form}
+          className="modal-form"
+          name="category"
+          labelCol={{
+            span: 24,
+          }}
+          wrapperCol={{
+            span: 24,
+          }}
+          autoComplete="off"
+        >
+          <Form.Item>
+            <Upload
+              name="avatar"
+              listType="picture-card"
+              className="category-upload"
+              showUploadList={false}
+              onChange={(e) => dispatch(uploadImage(e.file.originFileObj))}
+            >
+              <div className="image-box">
+                {imageLoading ? (
+                  <LoadingOutlined />
+                ) : imageData ? (
+                  <img
+                    className="upload-image"
+                    src={getCategoryImage(imageData)}
+                    alt="avatar"
+                  />
+                ) : (
+                  <div>
+                    <PlusOutlined />
+                    <div
+                      style={{
+                        marginTop: 8,
+                      }}
+                    >
+                      Upload
+                    </div>
+                  </div>
+                )}
+              </div>
+            </Upload>
+          </Form.Item>
+          <Form.Item
+            label="Title"
+            name="title"
+            rules={[
+              {
+                required: true,
+                message: "Please fill!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            label="Category"
+            name="category"
+            rules={[
+              {
+                required: true,
+                message: "Please fill!",
+              },
+            ]}
+          >
+            <Select
+              style={{
+                width: "100%",
+              }}
+              options={options}
+            />
+          </Form.Item>
+
+          <Form.Item
+            label="Description"
+            name="description"
+            rules={[
+              {
+                required: true,
+                message: "Please fill!",
+              },
+            ]}
+          >
+            <Input.TextArea
+              showCount
+              minLength={10}
+              maxLength={1000}
+              className="category__description__input"
+            />
+          </Form.Item>
+          
+        </Form>
+      </Modal>
     </Fragment>
   );
 };

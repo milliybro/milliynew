@@ -1,3 +1,21 @@
 .pagination {
   margin-top: 30px;
 }
+.caretory-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .category-btn {
+    padding: 0 10px;
+  }
+}
+.image-box{
+  display: flex;
+  gap: 10px;
+  margin-left: 250px;
+}
+.upload-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 5px;
+}

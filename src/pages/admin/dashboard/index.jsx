@@ -1,9 +1,7 @@
 import { useEffect } from "react";
-import { useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 
-import { AuthContext } from "../../../context/AuthContext";
 
 import { getCategories } from "../../../redux/actions/category";
 import { getUsers } from "../../../redux/actions/user";
@@ -13,7 +11,6 @@ import "./style.scss";
 import { Progress } from "antd";
 
 const DashboardPage = () => {
-  const { username } = useContext(AuthContext);
   const dispatch = useDispatch();
   const { total } = useSelector((state) => state.category);
   const { total: userTotal } = useSelector((state) => state.user);

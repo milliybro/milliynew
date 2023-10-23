@@ -84,9 +84,6 @@ const UserPostsPage = () => {
           <Button danger type="primary">
             Delete
           </Button>
-          {/* <Link to={`/user-posts/${data}`} type="primary">
-            See more
-          </Link> */}
         </Space>
       ),
     },
@@ -105,10 +102,7 @@ const UserPostsPage = () => {
               align="center"
               justify="space-between"
             >
-              <h1 className="category-posts-title">{categoryName} </h1>
-              <Button className="modal-btn" type="primary" size="large">
-                Add post
-              </Button>
+              <h1 className="category-posts-title">{categoryName}({total}) </h1>
             </Flex>
             <Search
             value={search}
@@ -116,7 +110,7 @@ const UserPostsPage = () => {
               onChange={(e) => dispatch(searchCategoryPosts(e.target.value))}
               size="large"
             />
-            <p className="search-results">A total of {total} posts found</p>
+          
           </Fragment>
         )}
         dataSource={posts}

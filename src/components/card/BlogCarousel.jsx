@@ -102,7 +102,7 @@ const BlogCarousel = () => {
               <p>
                 By
                 <span>
-                  {blog?.user.first_name} {blog?.user.last_name}
+                  {/* {blog?.user.first_name} {blog?.user.last_name} */}
                 </span>
               </p>
               <p>{longDate(blog.createdAt)}</p>

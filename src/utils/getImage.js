@@ -8,4 +8,8 @@ const getCategoryImage = (photo) => {
   return `${ENDPOINT}upload/${photo?._id}.${photo?.name.split(".")[1]}`
 }
 
-export { getImage, getCategoryImage };
+const getUserImage = (photo) => {
+  return `${ENDPOINT}upload/${photo?._id}.${photo?.name.split(".")[1]}`
+}
+
+export { getImage, getCategoryImage, getUserImage };

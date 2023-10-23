@@ -21,6 +21,7 @@ import UsersPage from "./pages/admin/users";
 import UserPostsPage from "./pages/admin/posts";
 import AllPostsPage from "./pages/admin/all-posts";
 import AccountEdit from "./pages/account/accountEdit";
+import CommentPage from "./pages/public/comment";
 
 function App() {
   const { isAuthenticated, role } = useContext(AuthContext);
@@ -55,6 +56,12 @@ function App() {
             path="/account/edit"
             element={
               isAuthenticated ? <AccountEdit /> : <Navigate to="/login" />
+            }
+          />
+          <Route
+            path="/comment/:blogId"
+            element={
+              isAuthenticated ? <CommentPage /> : <Navigate to="/login" />
             }
           />
         </Route>

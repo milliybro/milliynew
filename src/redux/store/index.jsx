@@ -1,6 +1,6 @@
 import { Provider } from "react-redux";
 import PropTypes from "prop-types";
-import { applyMiddleware, combineReducers, createStore } from "redux";
+import { applyMiddleware, combineReducers, compose, createStore } from "redux";
 import thunk from "redux-thunk";
 
 import categoryReducer from "../reducers/category";
@@ -17,7 +17,10 @@ const rootReducer = combineReducers({
   language: languageReducer,
 });
 
-export const Store = createStore(rootReducer, applyMiddleware(thunk));
+export const Store = createStore(rootReducer, compose(
+    applyMiddleware(thunk),
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  ));
 
 const StoreProvider = ({ children }) => {
   return <Provider store={Store}>{children}</Provider>;

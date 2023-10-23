@@ -2,7 +2,7 @@ import { Fragment, useCallback, useContext, useEffect, useState } from "react";
 
 import { AuthContext } from "../../../context/AuthContext";
 import Loader from "../../../utils/Loader";
-import { UploadOutlined } from "@ant-design/icons";
+import { LoadingOutlined, PlusOutlined, UploadOutlined } from "@ant-design/icons";
 
 import "./style.scss";
 import { Link } from "react-router-dom";
@@ -25,6 +25,7 @@ const MyPostsPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState(null);
+  const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
     setLoading(true);
@@ -138,6 +139,13 @@ const MyPostsPage = () => {
       console.log(err);
     }
   };
+
+  const uploadButton = (
+    <div>
+      {loading ? <LoadingOutlined /> : <PlusOutlined />}
+      <div style={{ marginTop: 8 }}>Upload</div>
+    </div>
+  );
 
   console.log(selected);
 
@@ -279,12 +287,31 @@ const MyPostsPage = () => {
                 <Form.Item label="Upload an image" name="photo">
                   <Upload
                     name="avatar"
+                    listType="picture-card"
+                    className="avatar-uploader"
+                    showUploadList={true}
+                    action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
+                    // beforeUpload={beforeUpload}
+                    onChange={uploadPhoto}
+                  >
+                    {imageUrl ? (
+                      <img
+                        src={imageUrl}
+                        alt="avatar"
+                        style={{ width: "100%" }}
+                      />
+                    ) : (
+                      uploadButton
+                    )}
+                  </Upload>
+                  {/* <Upload
+                    name="avatar"
                     className="avatar-uploader"
                     showUploadList={true}
                     onChange={uploadPhoto}
                   >
                     <Button icon={<UploadOutlined />}>Click to Upload</Button>
-                  </Upload>
+                  </Upload> */}
                 </Form.Item>
               </Form>
             </Modal>
