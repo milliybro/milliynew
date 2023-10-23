@@ -84,6 +84,21 @@ const AdminLayout = () => {
                 </Link>
               ),
             },
+            {
+              key: "/",
+              icon: <DatabaseOutlined />,
+              label: <Link to="/">Home</Link>,
+            },
+            {
+              key: "/posts",
+              icon: <DatabaseOutlined />,
+              label: <Link to="/posts">Blog</Link>,
+            },
+            {
+              key: "/about",
+              icon: <DatabaseOutlined />,
+              label: <Link to="/about">About</Link>,
+            },
           ]}
         />
       </Sider>
